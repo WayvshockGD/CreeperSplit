@@ -4,4 +4,5 @@ Creeper Split is the ultimate in moderation
 ## commands
 here's his commands:
 
-/kick (ex:) ![Kick]()
+/kick (ex:)
+<img src="https://imgur.com/a/Mla3LcO" />
