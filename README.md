@@ -8,4 +8,4 @@ here's his commands:
 
 # screenshots
 
-<img src="https://imgur.com/a/Mla3LcO" />
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/Mla3LcO"><a href="//imgur.com/a/Mla3LcO"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
