@@ -7,11 +7,15 @@ here's his commands:
 __entry point: /help__
 
 /kick <mention> (example at firgur 1A)
+
 /ban <mention> (example at figure 2A ) 
+
 /ping
+
 /reload
+
 /avatar
-/
+
 
 ## screenshots
 
