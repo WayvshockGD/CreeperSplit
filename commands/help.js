@@ -2,9 +2,14 @@ module.exports = {
 	name: 'help',
 	description: 'Reloads a command',
 	args: true,
-    execute(message, args) {
-   message.channel.send("bot: `/ping`, `/reload`")
-   message.channel.send(" **moderation:** `/ban <mention`, `/kick <mention>`")
-   message.channel.send("**user**:") 
+   const embed = new MessageEmbed()
+		.setTitle('Help:')
+		.setColor('#FFFF00')
+		.setThumbnail('https://i.imgur.com/AcwbDOF.png')
+		.addField('🛡️ **moderation**:', '`<kick`, `<ban`', true)
+		.addField('🤖 **bot:**','`<ping`, `<changelog or <news`, `<botinfo`', true)
+		.addField('📜 **extra:**','`<poll`, `<serverinfo or <server`', true)
+		.addField('fun:', '`<rainbow`, `<lenny`', true)
+		message.channel.send(embed);
   }
 };
