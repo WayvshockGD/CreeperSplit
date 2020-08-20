@@ -1,47 +1,26 @@
 module.exports = {
 	name: 'ban',
-	description: 'Reloads a command',
+	description: 'bans the user',
 	args: true,
 	execute(message, args) {
-  // Assuming we mention someone in the message, this will return the user
-    // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
-    const user = message.mentions.users.first();
-    // If we have a user mentioned
-    if (user) {
-      // Now we get the member from the user
-      const member = message.guild.member(user);
-      // If the member is in the guild
-      if (member) {
-        /**
-         * Ban the member
-         * Make sure you run this on a member, not a user!
-         * There are big differences between a user and a member
-         * Read more about what ban options there are over at
-         * https://discord.js.org/#/docs/main/master/class/GuildMember?scrollTo=ban
-         */
-        member
-          .ban({
-            reason: 'banned by one of the mods / admins',
-          })
-          .then(() => {
-            // We let the message author know we were able to ban the person
-            message.reply(`Successfully banned ${user.tag}`);
-          })
-          .catch(err => {
-            // An error happened
-            // This is generally due to the bot not being able to ban the member,
-            // either due to missing permissions or role hierarchy
-            message.reply('I was unable to ban the member');
-            // Log the error
-            console.error(err);
-          });
-      } else {
-        // The mentioned user isn't in this guild
-        message.reply("That user isn't in this guild!");
-      }
-    } else {
-      // Otherwise, if no user was mentioned
-      message.reply("You didn't mention the user to ban!");
+let member = message.mentions.members.first() || message.guild.members.get(args[0]);
+
+if(!message.member.hasPermission("BAN_MEMBERS")){
+    message.channel.send("You don't have the permissions to use this command!");
+}
+
+else{
+    if(!member)
+        return message.channel.send("Please mention a valid member of this server");
+    if(!member.bannable) 
+        return message.channel.send("I cannot ban this user! Do they have a higher role? Do I have ban permissions?");
+
+    let reason = args.slice(1).join(' ');
+    if(!reason) reason = "No reason provided";
+
+    member.ban(reason)
+        .catch(error => message.channel.send(`Sorry ${message.author} I couldn't ban the user`));
+    message.channel.send(`${member.user.tag} has been banned by ${message.author.tag} | reason: ${reason}`);
+}
     }
-  }
-};
+}
