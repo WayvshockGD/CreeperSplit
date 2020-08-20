@@ -1,42 +1,29 @@
 module.exports = {
 	name: 'kick',
-	description: 'Reloads a command',
+	description: 'kick a user in a server',
 	args: true,
 	execute(message, args) {
-  // Read more about mentions over at https://discord.js.org/#/docs/main/master/class/MessageMentions
-   const user = message.mentions.users.first();
-   // If we have a user mentioned
-   if (user) {
-     // Now we get the member from the user
-     const member = message.guild.member(user);
-     // If the member is in the guild
-     if (member) {
-       /**
-        * Kick the member
-        * Make sure you run this on a member, not a user!
-        * There are big differences between a user and a member
-        */
-       member
-         .kick('a user has been kicked by a mod / admin')
-         .then(() => {
-           // We let the message author know we were able to kick the person
-           message.reply(`Successfully kicked ${user.tag}`);
-         })
-         .catch(err => {
-           // An error happened
-           // This is generally due to the bot not being able to kick the member,
-           // either due to missing permissions or role hierarchy
-           message.reply('I was unable to kick the member');
-           // Log the error
-           console.error(err);
-         });
-     } else {
-       // The mentioned user isn't in this guild
-       message.reply("That user isn't in this guild!");
-     }
-     // Otherwise, if no user was mentioned
-   } else {
-     message.reply("You didn't mention the user to kick!");
-   }
+    let member = message.mentions.members.first() || message.guild.members.get(args[0]);
+
+    if(!message.member.hasPermission("KICK_MEMBERS")){
+        message.channel.send("You must have the permmison `kick members` to access this command");
+    }
+    else{
+        
+        if(!member)
+            //you have to type !kick then @username#1234 as an example
+            return message.channel.send("Please Mention someone to for me to kick");
+        if(!member.kickable) 
+            return message.channel.send("I cannot kick them because i do not have a higher role then them");
+
+        // slice(1) removes the first part, which here should be the user mention or ID
+        // join(' ') takes all the various parts to make it a single string.
+        let reason = args.slice(1).join(' ');
+        if(!reason) 
+            reason = "No reason provided";
+        member.kick(reason)
+            .catch(error => message.channel.send(`Sorry ${message.author} I couldn't kick because of : ${error}`));
+            message.channel.send(`${member.user.tag} has been kicked by ${message.author.tag} | Reason: ${reason}`);
+    }
  }
-};
+}
