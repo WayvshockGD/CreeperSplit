@@ -1,77 +1,97 @@
-const fs = require('fs');
-const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+// Requring the packages and modules required
+// All the methods used here are destructing.
+const { Client, Collection } = require("discord.js");
+const { readdirSync } = require("fs");
+const { sep } = require("path");
+const { success, error, warning } = require("log-symbols"); // npm i log-symbols or yarn add log-symbols
+// we require the config file
+const config = require("./config");
 
-const client = new Discord.Client();
-client.commands = new Discord.Collection();
+// Creating a instance of Client.
+const bot = new Client();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+// Attaching Config to bot so it can be accessed anywhere.
+bot.config = config;
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
-}
+// Creating command and aliases collection.
+["commands", "aliases"].forEach(x => bot[x] = new Collection());
 
-const cooldowns = new Discord.Collection();
+// A function to load all the commands.
+const load = (dir = "./commands/") => {
 
-client.once('ready', () => {
-	client.user.setActivity("Minecraft | /help", {
-		type: "PLAYING"
+	readdirSync(dir).forEach(dirs => {
+	// we read the commands directory for sub folders and filter the files with name with extension .js
+		const commands = readdirSync(`${dir}${sep}${dirs}${sep}`).filter(files => files.endsWith(".js"));
+
+		// we use for loop in order to get all the commands in sub directory
+		for (const file of commands) {
+		// We make a pull to that file so we can add it the bot.commands collection
+			const pull = require(`${dir}/${dirs}/${file}`);
+			// we check here if the command name or command category is a string or not or check if they exist
+			if (pull.help && typeof (pull.help.name) === "string" && typeof (pull.help.category) === "string") {
+				if (bot.commands.get(pull.help.name)) return console.warn(`${warning} Two or more commands have the same name ${pull.help.name}.`);
+				// we add the the comamnd to the collection, Map.prototype.set() for more info
+				bot.commands.set(pull.help.name, pull);
+				// we log if the command was loaded.
+				console.log(`${success} Loaded command ${pull.help.name}.`);
+
+			}
+			else {
+			// we check if the command is loaded else throw a error saying there was command it didn't load
+				console.log(`${error} Error loading command in ${dir}${dirs}. you have a missing help.name or help.name is not a string. or you have a missing help.category or help.category is not a string`);
+				// we use continue to load other commands or else it will stop here
+				continue;
+			}
+			// we check if the command has aliases, is so we add it to the collection
+			if (pull.help.aliases && typeof (pull.help.aliases) === "object") {
+				pull.help.aliases.forEach(alias => {
+					// we check if there is a conflict with any other aliases which have same name
+					if (bot.aliases.get(alias)) return console.warn(`${warning} Two commands or more commands have the same aliases ${alias}`);
+					bot.aliases.set(alias, pull.help.name);
+				});
+			}
+		}
+
 	});
-	console.log('Ready!');
+};
+
+// we call the function to all the commands.
+load();
+
+/**
+ * Ready event
+ * @description Event is triggred when bot enters ready state.
+ */
+bot.on("ready", () => {
+	console.log("I am online");
+});
+/**
+ * Message event
+ * @param message - The message parameter for this event.
+ */
+bot.on("message", async message => {
+
+	const prefix = bot.config.prefix;
+	const args = message.content.slice(prefix.length).trim().split(/ +/g);
+	const cmd = args.shift().toLowerCase();
+
+	let command;
+
+	if (message.author.bot || !message.guild) return;
+
+	// If the message.member is uncached, message.member might return null.
+	// This prevents that from happening.
+	// eslint-disable-next-line require-atomic-updates
+	if (!message.member) message.member = await message.guild.fetchMember(message.author);
+
+	if (!message.content.startsWith(prefix)) return;
+
+	if (cmd.length === 0) return;
+	if (bot.commands.has(cmd)) command = bot.commands.get(cmd);
+	else if (bot.aliases.has(cmd)) command = bot.commands.get(bot.aliases.get(cmd));
+
+	if (command) command.run(bot, message, args);
 });
 
-client.on('message', message => {
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const commandName = args.shift().toLowerCase();
-
-	const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-	if (!command) return;
-
-	if (command.guildOnly && message.channel.type === 'dm') {
-		return message.reply('I can\'t execute that command inside DMs!');
-	}
-
-	if (command.args && !args.length) {
-		let reply = `You didn't provide any arguments, ${message.author}!`;
-
-		if (command.usage) {
-			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-		}
-
-		return message.channel.send(reply);
-	}
-
-	if (!cooldowns.has(command.name)) {
-		cooldowns.set(command.name, new Discord.Collection());
-	}
-
-	const now = Date.now();
-	const timestamps = cooldowns.get(command.name);
-	const cooldownAmount = (command.cooldown || 3) * 1000;
-
-	if (timestamps.has(message.author.id)) {
-		const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-		if (now < expirationTime) {
-			const timeLeft = (expirationTime - now) / 1000;
-			return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-		}
-	}
-
-	timestamps.set(message.author.id, now);
-	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
-	try {
-		command.execute(message, args);
-	} catch (error) {
-		console.error(error);
-		message.reply('there was an error trying to execute that command!');
-	}
-});
-
-client.login(token);
+// Here we login the bot with the porvided token in the config file, as login() returns a Promise we catch the error.
+bot.login(bot.config.token).catch(console.error());
