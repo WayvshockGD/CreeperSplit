@@ -6,25 +6,8 @@ here's his commands:
 
 __entry point: /help__
 
-/kick <mention> (example at firgur 1A)
+<kick <mention> <reason>
 
-/ban <mention> (example at figure 2A ) 
+<ban <mention> <reason>
 
-/ping
-
-/reload
-
-/avatar
-
-
-## screenshots
-
-
-
-(figure 1A)
-<img src="https://i.imgur.com/T7jgC1a.png" />
-
-
-
-(figure 2A)
-<img src="https://i.imgur.com/XgBMK9A.png" />
+<ping
