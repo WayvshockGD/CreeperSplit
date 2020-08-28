@@ -3,12 +3,11 @@ module.exports.run = (bot, message, args) => {
 
 		const embed = new MessageEmbed()
 		.setTitle('Help:')
-		.setColor('#FFFF00')
-		.setThumbnail('https://i.imgur.com/AcwbDOF.png')
-		.addField('🛡️ **moderation**:', '`<kick`, `<ban`', true)
-		.addField('🤖 **bot:**','`<ping`, `<changelog or <news`, `<botinfo`', true)
-		.addField('📜 **extra:**','`<poll`, `<serverinfo or <server`', true)
-		.addField('fun:', '`<rainbow`, `<lenny`', true)
+		.setColor('RANDOM')
+		.addField('Fun Pugin:', '`<fun`', true)
+		.addField('Info Plugin:', '`<info`', true)
+		.addField('Other Plugin:', '`<other`', true)
+		.addField('Moderation Plugin:', '`<moderation`')
 		message.channel.send(embed);
 	}
 
