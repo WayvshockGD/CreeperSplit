@@ -9,6 +9,10 @@
   "author": "Wayv",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "@keyv/redis": "^2.1.2",
+    "discord.js": "^12.3.1",
+    "ffmpeg-static": "^4.2.7",
+    "log-symbols": "^4.0.0",
+    "node-fetch": "^2.6.0"
   }
 }

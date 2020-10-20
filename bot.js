@@ -1,3 +1,9 @@
+/**
+ * @author Anish Shobith
+ * @license MIT
+ * @file bot.js
+ */
+
 // Requring the packages and modules required
 // All the methods used here are destructing.
 const { Client, Collection } = require("discord.js");
@@ -6,6 +12,9 @@ const { sep } = require("path");
 const { success, error, warning } = require("log-symbols"); // npm i log-symbols or yarn add log-symbols
 // we require the config file
 const config = require("./config");
+const emote = require('./commands/json/emotes.json')
+const channel = require('./commands/json/channels.json');
+const { prefix } = require("./config");
 
 // Creating a instance of Client.
 const bot = new Client();
@@ -65,6 +74,7 @@ load();
 bot.on("ready", () => {
 	console.log("I am online");
 });
+
 /**
  * Message event
  * @param message - The message parameter for this event.
