@@ -1,9 +1,12 @@
+const { MessageEmbed } = require('discord.js')
+
 module.exports.run = (bot, message, args) => {
 
-  message.channel.send("Pong...").then(msg => {
-    msg.edit(`**Pong!** ${Date.now() - message.createdTimestamp} ms`)
-  });
-  console.log(args)
+    const PingEmbed = new MessageEmbed()
+    .setTitle(`Pong!`)
+    .setDescription(`Bot ping:\n\`\`\`js\n ${Date.now() - message.createdTimestamp} \n\`\`\``)
+    .setColor(bot.config.embed_color)
+    message.channel.send(PingEmbed)
   }
 
   module.exports.help = {

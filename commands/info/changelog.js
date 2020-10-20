@@ -1,16 +1,16 @@
 const { MessageEmbed } = require('discord.js');
+const colors = require('../json/embed colors.json');
 
 module.exports.run = (bot, message, args) => {
         
         const embed = new MessageEmbed()
-	    .setTitle('Creeper split v1.5')
-		.setColor('#0CFF00')
-		.setDescription('<a:check:742730552096063628> Whats new:')
-		.addField('1:', '<a:check:742730552096063628> added bot info : D, a new lenny and rainbow command(s)', true)
-		.addField('2:', '<a:check:742730552096063628> ban and kick now require you to have the perms', true)
-		.addField('3:', '<a:check:742730552096063628> a new user info command will be coming soon', true)
-		.addField('4:', '<a:check:742730552096063628> `<help` now displays more commands', true)
-		.setFooter('if you have any questions, suggestions or want to help code the bot please dm wayvshockGD#2237')
+	    .setTitle('Creeper split v1.7')
+		.setColor(colors.yellow)
+		.setDescription('Whats new in Creepersplit v.1.7')
+        .addField('1:', '<a:Yes:747064216619581450> Creeperpslit now has a new Command Handler', true)
+        .addField('2:', '<a:Yes:747064216619581450> help menu has been changed to a more simple design', true)
+        .addField('3:', '<a:Yes:747064216619581450> new meme commands say `<fun` to see them', true)
+        .addField('4:', '<a:Yes:747064216619581450> reload can no longer be accessed by regular people i only selected a few people who can access this command though', true)
         message.channel.send(embed);
     }
 	module.exports.help = {

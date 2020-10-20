@@ -1,6 +1,6 @@
 const https = require('https');
 const Discord = require('discord.js');
-const url = 'https://www.reddit.com/r/meme/hot/.json?limit=100'
+const url = 'https://www.reddit.com/r/AmongUsMemes/hot/.json?limit=100'
 
 module.exports.run = (bot, message, args) => {
 
@@ -57,8 +57,8 @@ module.exports.run = (bot, message, args) => {
     },
 
 module.exports.help = {
-	name: "meme",
-	aliases: ["memey"],
+	name: "among-us",
+	aliases: ["au"],
 	description: "",
 	usage: "",
 	category: "fun",

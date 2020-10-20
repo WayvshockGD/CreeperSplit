@@ -1,13 +1,18 @@
 const { MessageEmbed } = require('discord.js');
 module.exports.run = (bot, message, args) => {
 
+
 		const embed = new MessageEmbed()
-		.setTitle('Help:')
-		.setColor('RANDOM')
-		.addField('Fun Plugin:', '`<fun`', true)
-		.addField('Info Plugin:', '`<info`', true)
-		.addField('Other Plugin:', '`<other`', true)
-		.addField('Moderation Plugin:', '`<moderation`')
+		.setTitle(`Help:`)
+		.setDescription(`The prefix is: \`<\` \n \n \`<>\` are not required \n\`(disabled)\` means that command is disabled`)
+		.addField(`:smiley: Fun:`, `\`among-us (disabled), clyde, dankmeme (disabled), meme (disabled), pp, sacrifice \``, false)
+		.addField(`:exclamation: info:`, `\`botinfo, invite, changelog, serverinfo, ping\``)
+		.addField(`:shield: Moderation:`, `\`Ban <mention> <reason>, Kick <mention> <reason>\``)
+		.addField(`:regional_indicator_e: Other:`, `\`lenny, poll\``)
+
+		if(bot.config.owners.includes(message.author.id)) {
+			embed.addField(`Developer:`, `\`eval, reload <command>\``)
+		}
 		message.channel.send(embed);
 	}
 

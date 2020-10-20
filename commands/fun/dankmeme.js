@@ -4,6 +4,8 @@ const url = 'https://www.reddit.com/r/dankmemes/hot/.json?limit=100'
 
 module.exports.run = (bot, message, args) => {
 
+    if (!bot.config.owners.includes(message.author.id)) return;
+
         https.get(url, (result) => {
             var body = ''
             result.on('data', (chunk) => {

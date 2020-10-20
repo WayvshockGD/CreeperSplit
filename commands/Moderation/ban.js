@@ -1,6 +1,8 @@
+const { MessageEmbed } = require('discord.js')
+
 module.exports.run = (bot, message, args) => {
 
-    let member = message.mentions.members.first() || message.guild.members.get(args[0]);
+    let member = message.mentions.members.first()
 
 if(!message.member.hasPermission("BAN_MEMBERS")){
     message.channel.send("You don't have the permissions to use this command!");
@@ -14,6 +16,11 @@ else{
 
     let reason = args.slice(1).join(' ');
     if(!reason) reason = "No reason provided";
+
+    const BanEmbed = new MessageEmbed()
+    .setDescription(`Are you sure you want to ban \`${member.user.tag}\`?`)
+    message.channel.send(BanEmbed)
+
 
     member.ban(reason)
         .catch(error => message.channel.send(`Sorry ${message.author} I couldn't ban the user`));

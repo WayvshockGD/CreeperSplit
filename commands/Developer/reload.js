@@ -1,10 +1,10 @@
 const { readdirSync } = require("fs");
 const { join } = require("path");
+const emote = require('../json/emotes.json')
 
 module.exports.run = (bot, message, args) => {
 
 	if (!bot.config.owners.includes(message.author.id)) return;
-
 	if (!args[0]) return message.channel.send("Please provide a command to reload!");
 	const commandName = args[0].toLowerCase();
 	const command = bot.commands.get(commandName) || bot.commands.get(bot.aliases.get(commandName));
