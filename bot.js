@@ -15,6 +15,7 @@ const config = require("./config");
 const emote = require('./commands/json/emotes.json')
 const channel = require('./commands/json/channels.json');
 const { prefix } = require("./config");
+const Discord = require('discord.js')
 
 // Creating a instance of Client.
 const bot = new Client();
@@ -24,6 +25,7 @@ bot.config = config;
 
 // Creating command and aliases collection.
 ["commands", "aliases"].forEach(x => bot[x] = new Collection());
+
 
 // A function to load all the commands.
 const load = (dir = "./commands/") => {
@@ -42,7 +44,7 @@ const load = (dir = "./commands/") => {
 				// we add the the comamnd to the collection, Map.prototype.set() for more info
 				bot.commands.set(pull.help.name, pull);
 				// we log if the command was loaded.
-				console.log(`${success} Loaded command ${pull.help.name}.`);
+				console.log(`${success} Loaded command ${pull.help.name}.`)
 
 			}
 			else {
