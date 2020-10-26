@@ -6,9 +6,10 @@ module.exports.run = (bot, message, args) => {
 		.setTitle(`Help:`)
 		.setDescription(`The prefix is: \`<\` \n \n \`<>\` are not required \n\`(disabled)\` means that command is disabled`)
 		.addField(`:smiley: Fun:`, `\`among-us (disabled), clyde, dankmeme (disabled), meme (disabled), pp, sacrifice \``, false)
-		.addField(`:exclamation: info:`, `\`botinfo, invite, changelog, serverinfo, ping\``)
-		.addField(`:shield: Moderation:`, `\`Ban <mention> <reason>, Kick <mention> <reason>\``)
+		.addField(`:exclamation: info:`, `\`botinfo, invite, changelog, serverinfo, ping, privacy\``)
+		.addField(`:shield: Moderation:`, `\`Ban <mention> <reason>, Kick <mention> <reason>, slowmode <number>\``)
 		.addField(`:regional_indicator_e: Other:`, `\`lenny, poll\``)
+		.addField(`:gear: Settings:`, `\`welcome <channel>\``)
 
 		if(bot.config.owners.includes(message.author.id)) {
 			embed.addField(`Developer:`, `\`eval, reload <command>\``)
