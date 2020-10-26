@@ -1,3 +1,5 @@
+[![Discord Bots](https://top.gg/api/widget/701160098399256637.svg)](https://top.gg/bot/701160098399256637)
+
 # Info
 Creeper Split is the ultimate in moderation 
 
