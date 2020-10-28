@@ -6,6 +6,13 @@ Creeper Split is the ultimate in moderation
 __Entry point: <help__
 
 # Commands
+## Legend
+> `<>` - Required text.
+>
+> `[]` - Optional text.
+>
+> `|` - One or the other.
+---
 Here's his commands:
 
 #### MODERATION
