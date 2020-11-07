@@ -35,3 +35,5 @@ Here's his commands:
 `<serverinfo` - Displays information about the current server/guild.  
 `<botinfo` - Displays information and statistics about the bot.  
 `<invite` - Sends an invite link for the bot.
+#### SETTINGS
+`<welcome <channel>` [BROKEN] - Sets a welcome channel (BROKEN)
